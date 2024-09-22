@@ -8,9 +8,12 @@ import androidx.annotation.Nullable;
 
 public class AdminSQLiteOpenHelper extends SQLiteOpenHelper{
 
+    private static final String DATABASE_NAME = "ParkingDB";
+    private static final int DATABASE_VERSION = 1;
 
-    public AdminSQLiteOpenHelper(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, name, factory, version);
+
+    public AdminSQLiteOpenHelper(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
@@ -40,5 +43,14 @@ public class AdminSQLiteOpenHelper extends SQLiteOpenHelper{
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
+    }
+
+    // Método para verificar si el usuario está registrado
+    public boolean estaElUsuarioRegistrado(String username, String password){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM usuarios WHERE nombre = ? AND contrasena = ?", new String[]{username, password});
+        boolean estaRegistrado = (cursor.getCount() > 0);
+        cursor.close();
+        return estaRegistrado;
     }
 }
