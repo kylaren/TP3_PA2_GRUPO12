@@ -1,6 +1,7 @@
 package com.example.tp3_pa2_grupo12;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
@@ -45,22 +46,14 @@ public class RegistrarUsuario extends AppCompatActivity {
         String contrasena = et_contrasena.getText().toString();
         String repContra = et_repetirContrasena.getText().toString();
 
-
         if(!nombre.isEmpty() && !email.isEmpty() && !contrasena.isEmpty() && !repContra.isEmpty()){
-            if(contrasena.equals(repContra)){
-                ContentValues registro = new ContentValues();
-                registro.put("nombre", nombre);
-                registro.put("email", email);
-                registro.put("contrasena", contrasena);
+            if(contrasena.equals(repContra)) {
+                if (!existeEmail(db, email)) {
+                    registrarUsuario(db, nombre, email, contrasena);
+                    Toast.makeText(this, "Usuario registrado", Toast.LENGTH_SHORT).show();
 
-                db.insert("usuarios", null, registro);
-                db.close();
-                limpiarCampos();
-
-                Toast.makeText(this, "Usuario registrado", Toast.LENGTH_SHORT).show();
-
+                } else Toast.makeText(this, "ERROR, Email existente", Toast.LENGTH_SHORT).show();
             } else Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
-
         } else Toast.makeText(this, "Debes completar todos los campos", Toast.LENGTH_SHORT).show();
 
     }
@@ -70,5 +63,23 @@ public class RegistrarUsuario extends AppCompatActivity {
         et_email.setText("");
         et_contrasena.setText("");
         et_repetirContrasena.setText("");
+
+        et_nombre.requestFocus();
+    }
+
+    public void registrarUsuario(SQLiteDatabase db ,String nombre, String email, String contrasena){
+        ContentValues registro = new ContentValues();
+        registro.put("nombre", nombre);
+        registro.put("email", email);
+        registro.put("contrasena", contrasena);
+
+        db.insert("usuarios", null, registro);
+        db.close();
+        limpiarCampos();
+    }
+
+    public boolean existeEmail(SQLiteDatabase db, String email){
+        Cursor fila = db.rawQuery("select * from usuarios where email='" + email +"'", null);
+        return fila.moveToFirst();
     }
 }
