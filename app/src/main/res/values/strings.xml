@@ -16,5 +16,7 @@
     <string name="txt_repetirContrasena">Repetir Contraseña</string>
     <string name="btn_aceptar">ACEPTAR</string>
 
-
+    <!-- Parqueos-->
+    <string name="txt_flotante">Agregar nuevo parqueo</string>
+    <string name="add">Agregar</string>
 </resources>

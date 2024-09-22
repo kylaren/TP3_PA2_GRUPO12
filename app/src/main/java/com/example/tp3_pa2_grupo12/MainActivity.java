@@ -7,6 +7,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import android.content.Intent;
+import android.view.View;
+import android.widget.Button;
+
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,6 +24,19 @@ public class MainActivity extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+
+        // Encuentra el botón "Iniciar sesión" por su ID
+        Button btnIniciarSesion = findViewById(R.id.btn_iniciarSesion);
+
+        // Configura el OnClickListener para el botón
+        btnIniciarSesion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Crea un Intent para lanzar ParqueosActivity
+                Intent intent = new Intent(MainActivity.this, ParqueosActivity.class);
+                startActivity(intent);  // Inicia la nueva actividad
+            }
         });
     }
 }
