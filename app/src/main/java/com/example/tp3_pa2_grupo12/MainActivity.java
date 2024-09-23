@@ -11,14 +11,13 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
 public class MainActivity extends AppCompatActivity {
 
     private EditText et_nombreUsuario, et_password;
-
-    private Button btnIniciarSesion;
     private AdminSQLiteOpenHelper dbHelper;
 
 
@@ -31,13 +30,14 @@ public class MainActivity extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+
+
         });
 
         // Inicializa los campos de inicio de sesión
-        et_nombreUsuario = (EditText)findViewById(R.id.et_nombreUsuario);
-        et_password = (EditText)findViewById(R.id.et_password);
+        et_nombreUsuario = findViewById(R.id.et_nombreUsuario);
+        et_password = findViewById(R.id.et_password);
         dbHelper = new AdminSQLiteOpenHelper(this);
-
 
         // Encuentra el botón "Iniciar sesión" por su ID
         Button btnIniciarSesion = findViewById(R.id.btn_iniciarSesion);
@@ -61,12 +61,25 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     // Login exitoso
                     Toast.makeText(MainActivity.this, "Inicio de sesión exitoso.", Toast.LENGTH_SHORT).show();
-                }
 
-                // Crea un Intent para lanzar ParqueosActivity
-                Intent intent = new Intent(MainActivity.this, ParqueosActivity.class);
-                startActivity(intent);  // Inicia la nueva actividad
+                    // Crea un Intent para lanzar ParqueosActivity
+                    Intent intent = new Intent(MainActivity.this, ParqueosActivity.class);
+                    startActivity(intent);  // Inicia la nueva actividad
+                    finish(); // se cierra MainActivity para no volver al inicio de sesión
+                }
             }
         });
+
+        // TextView para registrarse
+        TextView txtRegistrarse = findViewById(R.id.txt_registrarse);
+        txtRegistrarse.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                // Crea un Intent para iniciar la actividad RegistrarUsuario
+                Intent intent = new Intent(MainActivity.this, RegistrarUsuario.class);
+                startActivity(intent);
+            }
+        });
+
     }
 }
