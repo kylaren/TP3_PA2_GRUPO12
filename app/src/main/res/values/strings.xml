@@ -19,4 +19,6 @@
     <!-- Parqueos-->
     <string name="txt_flotante">Agregar nuevo parqueo</string>
     <string name="add">Agregar</string>
+    <string name="navigation_drawer_open">Abrir menú</string>
+    <string name="navigation_drawer_close">Cerrar menú</string>
 </resources>

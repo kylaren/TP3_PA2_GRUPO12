@@ -1,0 +1,8 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_parqueos"
+        android:title="Parqueos" />
+    <item
+        android:id="@+id/nav_mi_cuenta"
+        android:title="Mi cuenta" />
+</menu>

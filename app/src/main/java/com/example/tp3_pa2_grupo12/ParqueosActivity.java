@@ -14,15 +14,28 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 import android.database.Cursor;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import com.google.android.material.navigation.NavigationView;
+import android.view.MenuItem;  // Asegúrate de que esto esté presente
+import androidx.annotation.NonNull;
 
-public class ParqueosActivity extends AppCompatActivity {
+
+
+public class ParqueosActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     AdminSQLiteOpenHelper adminSQLiteOpenHelper;
     String usuario = "userTesting";
 
+    private DrawerLayout drawerLayout;
+
     RecyclerView recyclerViewParqueos;
     ParqueosAdapter parqueosAdapter;
     List<Parqueo> parqueoList;
+
+    // Obtengo el user validado desde El main
+    //usuario = getIntent().getStringExtra("usuario");
 
 
     @Override
@@ -55,10 +68,22 @@ public class ParqueosActivity extends AppCompatActivity {
 
         parqueosAdapter = new ParqueosAdapter(this, parqueoList);
         recyclerViewParqueos.setAdapter(parqueosAdapter);
+
+        // Configurar DrawerLayout y NavigationView
+        drawerLayout = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        // Configurar el botón hamburguesa
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
     }
 
     private void cargarParqueos() {
-        Cursor cursor = adminSQLiteOpenHelper.obtenerParqueos();
+        Cursor cursor = adminSQLiteOpenHelper.obtenerParqueosPorUsuario(usuario);
 
         if (cursor != null && cursor.getCount() > 0) {
             if (cursor.moveToFirst()) {
@@ -66,7 +91,6 @@ public class ParqueosActivity extends AppCompatActivity {
                     int matriculaIndex = cursor.getColumnIndex("nro_matricula");
                     int tiempoIndex = cursor.getColumnIndex("tiempo");
 
-                    // Verifica que los índices no sean -1
                     if (matriculaIndex != -1 && tiempoIndex != -1) {
                         String matricula = cursor.getString(matriculaIndex);
                         String tiempo = cursor.getString(tiempoIndex);
@@ -123,5 +147,25 @@ public class ParqueosActivity extends AppCompatActivity {
                 .show();
     }
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.nav_parqueos) {
+            // Acciones al seleccionar "Parqueos"
+        } else if (item.getItemId() == R.id.nav_mi_cuenta) {
+            // "Mi cuenta" es meramente estético
+        }
 
+        // Cierra el drawer después de seleccionar una opción
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
 }
