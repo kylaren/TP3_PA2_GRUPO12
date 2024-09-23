@@ -50,4 +50,28 @@ public class AdminSQLiteOpenHelper extends SQLiteOpenHelper{
         cursor.close();
         return estaRegistrado;
     }
+
+    public String obtenerEmailPorUsuario(String user) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String email = null;
+
+        Cursor cursor = null;
+        try {
+            cursor = db.rawQuery("SELECT email FROM usuarios WHERE usuario = ?", new String[]{user});
+            if (cursor != null && cursor.moveToFirst()) {
+                int emailIndex = cursor.getColumnIndex("email");
+                if (emailIndex != -1) {
+                    email = cursor.getString(emailIndex);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return email;
+    }
+
 }

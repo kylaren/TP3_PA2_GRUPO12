@@ -21,4 +21,12 @@
         android:textColor="@android:color/white"
         android:paddingTop="8dp" />
 
+    <TextView
+        android:id="@+id/txt_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="empty@empty.com"
+        android:textSize="14sp"
+        android:textColor="@android:color/white"
+        android:paddingTop="4dp" />
 </LinearLayout>

@@ -29,6 +29,7 @@ public class ParqueosActivity extends AppCompatActivity implements NavigationVie
 
     AdminSQLiteOpenHelper adminSQLiteOpenHelper;
     String usuario;
+    String email;
     private DrawerLayout drawerLayout;
     RecyclerView recyclerViewParqueos;
     ParqueosAdapter parqueosAdapter;
@@ -40,11 +41,17 @@ public class ParqueosActivity extends AppCompatActivity implements NavigationVie
         setContentView(R.layout.activity_parqueos);
 
         usuario = getIntent().getStringExtra("usuario");
+        adminSQLiteOpenHelper = new AdminSQLiteOpenHelper(this);
 
         // Verifico si el usuario es null y asigno un valor predeterminado
         if (usuario == null || usuario.isEmpty()) {
             usuario = "userTest";
         }
+        email = adminSQLiteOpenHelper.obtenerEmailPorUsuario(usuario);
+        if (email == null || email.isEmpty()) {
+            email = "userTest@mail.com";
+        }
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Parking Control");
@@ -63,7 +70,6 @@ public class ParqueosActivity extends AppCompatActivity implements NavigationVie
         recyclerViewParqueos = findViewById(R.id.recyclerViewParqueos);
         recyclerViewParqueos.setLayoutManager(new GridLayoutManager(this, 2));
 
-        adminSQLiteOpenHelper = new AdminSQLiteOpenHelper(this);
         parqueoList = new ArrayList<>();
 
         cargarParqueos();
@@ -78,7 +84,10 @@ public class ParqueosActivity extends AppCompatActivity implements NavigationVie
         View headerView = navigationView.getHeaderView(0);
 
         TextView txtUsuario = headerView.findViewById(R.id.txt_usuario);
+        TextView txtEmail = headerView.findViewById(R.id.txt_email);
+
         txtUsuario.setText(usuario);
+        txtEmail.setText(email);
 
         // Configurar el botón hamburguesa
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
