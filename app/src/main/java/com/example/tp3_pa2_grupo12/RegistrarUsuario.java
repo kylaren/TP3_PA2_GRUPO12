@@ -38,7 +38,7 @@ public class RegistrarUsuario extends AppCompatActivity {
     }
 
     public void Registrar(View view){
-        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this,"ParkingDB", null, 1);
+        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this);
         SQLiteDatabase db = admin.getWritableDatabase();
 
         String nombre = et_nombre.getText().toString();

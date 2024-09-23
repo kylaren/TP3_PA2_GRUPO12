@@ -61,7 +61,7 @@ public class ParqueosActivity extends AppCompatActivity implements NavigationVie
         recyclerViewParqueos = findViewById(R.id.recyclerViewParqueos);
         recyclerViewParqueos.setLayoutManager(new GridLayoutManager(this, 2));
 
-        adminSQLiteOpenHelper = new AdminSQLiteOpenHelper(this, "parqueosDB", null, 1);
+        adminSQLiteOpenHelper = new AdminSQLiteOpenHelper(this);
         parqueoList = new ArrayList<>();
 
         cargarParqueos();
