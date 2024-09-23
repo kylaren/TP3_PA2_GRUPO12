@@ -19,6 +19,8 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import com.google.android.material.navigation.NavigationView;
 import android.view.MenuItem;  // Asegúrate de que esto esté presente
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 
 
@@ -26,23 +28,23 @@ import androidx.annotation.NonNull;
 public class ParqueosActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     AdminSQLiteOpenHelper adminSQLiteOpenHelper;
-    String usuario = "userTesting";
-
+    String usuario;
     private DrawerLayout drawerLayout;
-
     RecyclerView recyclerViewParqueos;
     ParqueosAdapter parqueosAdapter;
     List<Parqueo> parqueoList;
-
-    // Obtengo el user validado desde El main
-    //usuario = getIntent().getStringExtra("usuario");
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parqueos);
 
+        usuario = getIntent().getStringExtra("usuario");
+
+        // Verifico si el usuario es null y asigno un valor predeterminado
+        if (usuario == null || usuario.isEmpty()) {
+            usuario = "userTest";
+        }
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Parking Control");
@@ -73,6 +75,10 @@ public class ParqueosActivity extends AppCompatActivity implements NavigationVie
         drawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View headerView = navigationView.getHeaderView(0);
+
+        TextView txtUsuario = headerView.findViewById(R.id.txt_usuario);
+        txtUsuario.setText(usuario);
 
         // Configurar el botón hamburguesa
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

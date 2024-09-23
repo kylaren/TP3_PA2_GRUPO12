@@ -24,7 +24,7 @@ public class AdminSQLiteOpenHelper extends SQLiteOpenHelper{
     }
 
 
-    public void insertarParqueo(String usuario, String nroMatricula, String tiempo) {
+    public void insertarParqueo(String nroMatricula, String tiempo, String usuario){
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("INSERT INTO parqueos (nro_matricula, tiempo, usuario) VALUES (?, ?, ?)", new Object[]{nroMatricula, tiempo, usuario});
         db.close();
@@ -35,14 +35,9 @@ public class AdminSQLiteOpenHelper extends SQLiteOpenHelper{
            return db.rawQuery("SELECT nro_matricula, tiempo FROM parqueos WHERE usuario = ?", new String[]{usuario});
     }
 
-    public Cursor obtenerParqueos() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        return db.rawQuery("SELECT * FROM parqueos", null);
-    }
-
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS paqueos");
+        db.execSQL("DROP TABLE IF EXISTS parqueos");
         db.execSQL("DROP TABLE IF EXISTS usuarios");
         onCreate(db);
     }

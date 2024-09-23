@@ -64,8 +64,9 @@ public class MainActivity extends AppCompatActivity {
 
                     // Crea un Intent para lanzar ParqueosActivity
                     Intent intent = new Intent(MainActivity.this, ParqueosActivity.class);
+                    intent.putExtra("usuario", username);
                     startActivity(intent);  // Inicia la nueva actividad
-                    finish(); // se cierra MainActivity para no volver al inicio de sesión
+                    finish();
                 }
             }
         });
