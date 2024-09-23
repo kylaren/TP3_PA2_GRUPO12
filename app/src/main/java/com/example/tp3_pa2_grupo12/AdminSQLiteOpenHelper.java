@@ -42,7 +42,9 @@ public class AdminSQLiteOpenHelper extends SQLiteOpenHelper{
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        db.execSQL("DROP TABLE IF EXISTS paqueos");
+        db.execSQL("DROP TABLE IF EXISTS usuarios");
+        onCreate(db);
     }
 
     // Método para verificar si el usuario está registrado
